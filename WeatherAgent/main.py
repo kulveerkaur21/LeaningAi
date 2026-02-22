@@ -1,3 +1,4 @@
+# Weather Agent - Main File
 from openai import OpenAI
 
 client = OpenAI(
@@ -5,12 +6,12 @@ client = OpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai"
 )
 
+userquery = input(">")
 response = client.chat.completions.create(
     model="models/gemini-2.5-flash",
     messages=[
-        {"role": "system", "content": "You are a helpful AI assistant."},
-        {"role": "user", "content": "What is Python?"}
-    ],
+        {"role": "user", "content": userquery}
+    ]
 )
 
-print(response.choices[0].message.content)
+print(f"Response: {response.choices[0].message.content}")
