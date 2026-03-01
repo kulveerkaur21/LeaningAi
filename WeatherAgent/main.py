@@ -4,7 +4,7 @@ import requests
 import json
 
 client = OpenAI(
-    api_key="AIzaSyBFkZTy6M7AsUx2rMX0s8D-GL4ecybf8Ws",
+    api_key="",
     base_url="https://generativelanguage.googleapis.com/v1beta/openai"
 )
 
@@ -59,7 +59,7 @@ while True:
     message_history.append({"role": "assistant", "content": ai_response})
     paredResult = json.loads(ai_response)
     
-    if(paredResult.get("steps") == "start"):
+    if(paredResult.get("steps") == "Start"):
         print("Starting llm...", paredResult.get("content"))
         continue
     if(paredResult.get("steps") == "Plan"):
@@ -75,10 +75,7 @@ while True:
         
         message_history.append({
             "role": "assistant",
-            "content": json.dumps({
-                "steps": "Tool_Result",
-                "content": weather_result
-            })
+            "content": weather_result
         })
         continue
     if(paredResult.get("steps") == "output"):
