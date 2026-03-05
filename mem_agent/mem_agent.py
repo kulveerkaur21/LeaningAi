@@ -1,10 +1,15 @@
+from openai import OpenAI
 from mem0 import Memory
 import os
 import json
 from dotenv import load_dotenv
 load_dotenv()
-from openai import OpenAI
-client = OpenAI()
+
+# Neo4j connection test - credentials removed for security
+# uri = "neo4j+s://your-neo4j-url"
+# driver = GraphDatabase.driver(uri, auth=("username", "password"))
+# with driver.session() as session:
+#     print(session.run("RETURN 1").single())
 OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 config = {
     "version" : "v1.1",
@@ -22,6 +27,15 @@ config = {
             "model" : "gpt-4.1"
         }
     },
+        "graph_store": {
+        "provider": "neo4j",
+        "config": {
+            "url": "neo4j+s://your-neo4j-url",
+            "username": "your-username",
+            "password": "your-password",
+            "database": "your-database"
+        }
+    },
     "vector_store" : {
         "provider" : "qdrant",
         "config" : {
@@ -34,6 +48,9 @@ config = {
 
 mem_client = Memory.from_config(config)
 
+
+client = OpenAI(api_key=OPEN_API_KEY)
+client.models.list()
 while True:
     user_query = input(">")
 
